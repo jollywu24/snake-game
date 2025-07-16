@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>黏土贪吃蛇</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>黏土贪吃蛇</h1>
+
+    <div id="game-container">
+        <div id="level-display">关卡 1</div>
+        <div id="game-buttons">
+            <div id="level-select-button">☰</div>
+            <div id="reset-button-ingame">↺</div>
+        </div>
+
+        <canvas id="gameCanvas" width="450" height="800"></canvas>
+        
+        <div id="message-box" class="hidden">
+            <h2 id="message-title"></h2>
+            <p id="message-text"></p>
+            <button id="restart-button">重玩本关</button>
+        </div>
+
+        <div id="level-select-overlay" class="hidden">
+            <div class="level-select-panel">
+                <h2>选择关卡</h2>
+                <div id="level-grid"></div>
+                <button id="close-level-select">关闭</button>
+            </div>
+        </div>
+
+        <div id="toast-message" class="hidden"></div>
+        
+        <!-- **关键修改：将D-Pad移入游戏容器内** -->
+        <div id="d-pad-container">
+            <div class="d-pad-button" id="d-pad-up">
+                <svg viewBox="0 0 100 100"><path d="M50 15 L85 65 L15 65 Z"></path></svg>
+            </div>
+            <div class="d-pad-button" id="d-pad-left">
+                <svg viewBox="0 0 100 100"><path d="M15 50 L65 15 L65 85 Z"></path></svg>
+            </div>
+            <div class="d-pad-button" id="d-pad-down">
+                <svg viewBox="0 0 100 100"><path d="M50 85 L15 35 L85 35 Z"></path></svg>
+            </div>
+            <div class="d-pad-button" id="d-pad-right">
+                <svg viewBox="0 0 100 100"><path d="M85 50 L35 85 L35 15 Z"></path></svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 旧的操作提示文字可以移除了 -->
+    
+    <script src="game.js"></script>
+</body>
+</html>
