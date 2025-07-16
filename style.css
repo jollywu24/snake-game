@@ -1,22 +1,53 @@
-/* ... (body, h1, #game-container, canvas 等样式不变) ... */
-body { background-color: #0c1a4b; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 10px; height: 100vh; box-sizing: border-box; overflow: hidden; }
-h1 { margin: 10px 0; }
-#game-container { position: relative; border: 3px solid #fff; border-radius: 10px; box-shadow: 0 0 20px rgba(173, 216, 230, 0.5); max-width: 100%; flex-grow: 1; margin-bottom: 10px; aspect-ratio: 450 / 800; }
+body {
+    background-color: #0c1a4b;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* 让容器在垂直方向也居中 */
+    
+    /* **关键修改：移除内边距，让内容贴紧屏幕边缘** */
+    padding: 0; 
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* **关键修改：删除 h1 的样式规则，因为它已经不存在了** */
+/* h1 { margin: 10px 0; } */
+
+#game-container {
+    position: relative;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(173, 216, 230, 0.5);
+    max-width: 100%;
+    
+    /* **关键修改：设置一个明确的高度，并移除flex-grow** */
+    width: 100vw; /* 宽度占满视窗 */
+    height: 100vh; /* 高度占满视窗 */
+    
+    /* 为了保持游戏比例，同时让它在不同屏幕上尽可能大 */
+    max-width: calc(100vh * (450 / 800)); /* 高度优先，根据高度计算最大宽度 */
+    max-height: 100vh;
+    
+    aspect-ratio: 450 / 800;
+    margin: 0; /* 移除外边距 */
+}
+
 canvas {
     display: block;
-    /* **关键修改：将背景指向您的图片** */
-    background-image: url('my-background.png'); 
-    
-    /* 这两行很重要，确保图片能很好地填充背景 */
+    /* 背景图相关的样式保持不变 */
+    background-image: url('my-background.jpg');
     background-size: cover;
     background-position: center;
-    
     border-radius: 8px;
     width: 100%;
     height: 100%;
 }
 
-/* ... (其他UI样式不变) ... */
+/* ... (所有其他样式，如 #level-display, #d-pad-container 等保持不变) ... */
 #level-display { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: bold; color: rgba(255, 255, 255, 0.8); text-shadow: 1px 1px 2px rgba(0,0,0,0.5); z-index: 10; }
 #game-buttons { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; z-index: 10; }
 #reset-button-ingame, #level-select-button { width: 40px; height: 40px; background-color: rgba(0, 0, 0, 0.4); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; cursor: pointer; transition: transform 0.2s, background-color 0.2s; }
@@ -33,23 +64,10 @@ canvas {
 #close-level-select { padding: 10px 25px; border-radius: 8px; border: none; background-color: #007bff; color: white; font-size: 16px; cursor: pointer; }
 #message-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(0, 0, 0, 0.75); padding: 30px; border-radius: 15px; text-align: center; border: 2px solid #fff; z-index: 20; }
 #message-box.hidden, #level-select-overlay.hidden, #toast-message.hidden, #portal-image.hidden { display: none; }
-#toast-message { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.8); padding: 8px 16px; border-radius: 20px; font-size: 14px; z-index: 40; animation: fade-in-out 2s forwards; }
+#toast-message { position: absolute; bottom: 20%; /* 稍微调高一点，避免被D-Pad遮挡 */ left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.8); padding: 8px 16px; border-radius: 20px; font-size: 14px; z-index: 40; animation: fade-in-out 2s forwards; }
 @keyframes fade-in-out { 0% { opacity: 0; transform: translate(-50%, 10px); } 20% { opacity: 1; transform: translate(-50%, 0); } 80% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -10px); } }
 #d-pad-container { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10; width: 160px; height: 160px; display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 5px; user-select: none; -webkit-user-select: none; }
 .d-pad-button { background-color: rgba(50, 50, 50, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: background-color 0.1s, transform 0.1s; aspect-ratio: 1 / 1; }
 .d-pad-button:active { background-color: rgba(80, 80, 80, 0.8); transform: scale(0.95); }
 .d-pad-button svg { width: 40%; height: 40%; fill: rgba(255, 255, 255, 0.8); }
 #d-pad-up { grid-area: 1 / 2 / 2 / 3; } #d-pad-down { grid-area: 3 / 2 / 4 / 3; } #d-pad-left { grid-area: 2 / 1 / 3 / 2; } #d-pad-right { grid-area: 2 / 3 / 3 / 4; }
-
-/* ======================================================= */
-
-
-/* 定义旋转动画 */
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
